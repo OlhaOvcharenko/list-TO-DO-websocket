@@ -17,19 +17,16 @@ io.on('connection', (socket) => {
     socket.on('addTask', (newTask) => {
       tasks.push(newTask);
       
-      const message = `New task has been published: ${newTask.task}`;
-  
-      socket.broadcast.emit('addTask', { id: socket.id,  task: message });
+      socket.broadcast.emit('addTask', newTask);
+      //console.log(newTask, "newTask", tasks, "allTasks")
     });
 
-    socket.on('removeTask', () => { 
-    const removedTask = tasks.findIndex(task => task.id === socket.id);
-      if (removedTask !== -1) {
-        const taskName = tasks[removedTask].task; 
-        tasks.splice(removedTask, 1);
-        const message = `${taskName} has been deleted.`;
-        socket.broadcast.emit('removeTask', { id: socket.id,  task: message});
-      }
+    socket.on('removeTask', (id) => { 
+      const removedTaskIndex = tasks.findIndex(task => task.id === id);
+        if (removedTaskIndex !== -1) {
+          tasks.splice(removedTask, 1);
+          socket.broadcast.emit('removeTask', id);
+        }
     });
   
 });  
