@@ -12,7 +12,7 @@ const io = socket(server);
 
 io.on('connection', (socket) => {
    
-    io.to(socket.id).emit('updateData', tasks);
+    io.to(socket.id).emit('updateTasks', tasks);
 
     socket.on('addTask', (newTask) => {
       tasks.push(newTask);
