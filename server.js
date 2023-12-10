@@ -11,14 +11,13 @@ const server = app.listen(8000, () => {
 const io = socket(server);
 
 io.on('connection', (socket) => {
-   
+  
     io.to(socket.id).emit('updateTasks', tasks);
 
     socket.on('addTask', (newTask) => {
       tasks.push(newTask);
       
       socket.broadcast.emit('addTask', newTask);
-      //console.log(newTask, "newTask", tasks, "allTasks")
     });
 
     socket.on('removeTask', (id) => {
